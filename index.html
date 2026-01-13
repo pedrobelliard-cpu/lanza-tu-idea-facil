@@ -8,126 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
-        /* Suavizar la transición de los botones en móviles */
         button:active { transform: scale(0.95); }
-    </style>
-</head>
-<body class="min-h-screen flex items-center justify-center p-4 sm:p-6">
-
-    <div class="w-full max-w-lg bg-white rounded-[2rem] shadow-2xl border border-slate-200 overflow-hidden transition-all">
-        
-        <div class="bg-blue-800 p-6 sm:p-10 text-white text-center sm:text-left">
-            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                Lanza tu idea <span class="text-blue-300">0.1</span>
-            </h1>
-            <p class="text-blue-100 opacity-80 mt-2 text-sm sm:text-base">
-                Plataforma de captura de ideas estratégicas
-            </p>
-        </div>
-
-        <form id="ideaForm" class="p-6 sm:p-10 space-y-5 sm:y-6">
-            
-            <div>
-                <label class="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Título de la idea</label>
-                <input type="text" name="titulo" required
-                    class="w-full p-3 sm:p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-sm sm:text-base"
-                    placeholder="¿Cómo se llama tu propuesta?">
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-                <div>
-                    <label class="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nombre Completo *</label>
-                    <input type="text" name="nombre" required
-                        class="w-full p-3 sm:p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-sm sm:text-base"
-                        placeholder="Tu nombre">
-                </div>
-
-                <div>
-                    <label class="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Código Empleado *</label>
-                    <input type="text" name="codigo" required
-                        class="w-full p-3 sm:p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-sm sm:text-base"
-                        placeholder="Ej. 12345">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Área o Departamento</label>
-                <input type="text" name="departamento"
-                    class="w-full p-3 sm:p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-sm sm:text-base"
-                    placeholder="¿A qué área perteneces?">
-            </div>
-
-            <button type="submit" id="submitBtn"
-                class="w-full bg-blue-700 text-white font-bold py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200 mt-4 text-sm sm:text-base">
-                REGISTRAR IDEA
-            </button>
-
-        </form>
-
-        <div id="successCard" class="hidden p-8 sm:p-14 text-center space-y-4">
-            <div class="inline-flex items-center justify-center w-14 h-14 sm:w-20 sm:h-20 bg-green-100 text-green-600 rounded-full mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 sm:h-10 sm:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                </svg>
-            </div>
-            <h3 class="text-xl sm:text-2xl font-bold text-slate-800">¡Idea enviada!</h3>
-            <p class="text-slate-500 text-sm sm:text-base">Tu propuesta ha sido registrada exitosamente.</p>
-            <button onclick="location.reload()" class="mt-4 text-blue-700 font-bold hover:underline italic text-sm sm:text-base block w-full text-center">
-                Enviar otra idea
-            </button>
-        </div>
-    </div>
-
-    <script>
-        const SCRIPT_URL = 'URL_DE_TU_SCRIPT_AQUI';
-
-        document.getElementById('ideaForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const form = e.target;
-            
-            btn.innerText = 'ENVIANDO...';
-            btn.disabled = true;
-
-            const data = Object.fromEntries(new FormData(form).entries());
-
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(data)
-                });
-
-                form.classList.add('hidden');
-                document.getElementById('successCard').classList.remove('hidden');
-            } catch (error) {
-                alert('Error al conectar con el servidor');
-                btn.innerText = 'REGISTRAR IDEA';
-                btn.disabled = false;
-            }
-        });
-    </script>
-</body>
-</html><html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lanza tu idea 0.1</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
-    <div class="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
-        <div class="bg-blue-800 p-8 text-white">
-            <h1 class="text-3xl font-extrabold tracking-tight">Lanza tu idea <span class="text-blue-300">0.1</span></h1>
-            <p class="text-blue-100 opacity-80 mt-1">Plataforma de captura de ideas estratégicas</p>
+    <div class="w-full max-w-lg bg-white rounded-[2rem] shadow-2xl border border-slate-200 overflow-hidden">
+        
+        <div class="bg-blue-800 p-8 sm:p-10 text-white text-center sm:text-left">
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                Lanza tu idea <span class="text-blue-300">0.1</span>
+            </h1>
+            <p class="text-blue-100 opacity-80 mt-2 text-sm">
+                Plataforma de captura de ideas estratégicas
+            </p>
         </div>
 
-        <form id="ideaForm" class="p-8 space-y-6">
+        <form id="ideaForm" class="p-8 sm:p-10 space-y-6">
             
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Título de la idea</label>
@@ -136,7 +33,7 @@
                     placeholder="¿Cómo se llama tu propuesta?">
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nombre Completo *</label>
                     <input type="text" name="nombre" required
@@ -160,27 +57,27 @@
             </div>
 
             <button type="submit" id="submitBtn"
-                class="w-full bg-blue-700 text-white font-bold py-4 rounded-2xl hover:bg-blue-800 active:scale-[0.98] transition-all shadow-lg shadow-blue-200">
+                class="w-full bg-blue-700 text-white font-bold py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200 mt-4">
                 REGISTRAR IDEA
             </button>
 
         </form>
 
         <div id="successCard" class="hidden p-12 text-center space-y-4">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 text-green-600 rounded-full mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
             <h3 class="text-2xl font-bold text-slate-800">¡Idea enviada!</h3>
-            <p class="text-slate-500">Tu propuesta ha sido registrada exitosamente en el sistema.</p>
-            <button onclick="location.reload()" class="mt-4 text-blue-700 font-bold hover:underline italic">Enviar otra idea</button>
+            <p class="text-slate-500">Tu propuesta ha sido registrada exitosamente.</p>
+            <button onclick="location.reload()" class="mt-4 text-blue-700 font-bold hover:underline">Enviar otra idea</button>
         </div>
     </div>
 
     <script>
-        // PEGAR AQUÍ TU URL DE GOOGLE APPS SCRIPT LUEGO
-        const SCRIPT_URL = 'URL_DE_TU_SCRIPT_AQUI';
+        // REEMPLAZA ESTO CON TU URL DE GOOGLE
+        const SCRIPT_URL = 'ESCRIBE_AQUI_TU_URL_DE_GOOGLE';
 
         document.getElementById('ideaForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -190,19 +87,19 @@
             btn.innerText = 'ENVIANDO...';
             btn.disabled = true;
 
-            const data = Object.fromEntries(new FormData(form).entries());
-
+            const formData = new FormData(form);
+            
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    body: JSON.stringify(data)
+                    body: formData
                 });
 
                 form.classList.add('hidden');
                 document.getElementById('successCard').classList.remove('hidden');
             } catch (error) {
-                alert('Error al conectar con Google Sheets');
+                alert('Error al enviar la idea. Revisa la conexión.');
                 btn.innerText = 'REGISTRAR IDEA';
                 btn.disabled = false;
             }
