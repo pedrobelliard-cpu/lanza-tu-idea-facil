@@ -43,7 +43,7 @@
 
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Código Empleado *</label>
-                    <input type="text" name="codigo" required
+                    <input type="text" id="codigoInput" name="codigo" required
                         class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all"
                         placeholder="Ej. 12345">
                 </div>
@@ -86,14 +86,25 @@
     </div>
 
     <script>
-        // REEMPLAZA ESTO CON TU URL DE GOOGLE (Apps Script)
         const SCRIPT_URL = 'ESCRIBE_AQUI_TU_URL_DE_GOOGLE';
 
         document.getElementById('ideaForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             const form = e.target;
-            
+            const codigoValue = document.getElementById('codigoInput').value.trim();
+
+            // --- LÓGICA DE VALIDACIÓN DE DUPLICADOS ---
+            // 1. Obtener la lista de códigos ya usados del localStorage
+            let codigosUsados = JSON.parse(localStorage.getItem('codigosRegistrados')) || [];
+
+            // 2. Verificar si el código actual ya existe en la lista
+            if (codigosUsados.includes(codigoValue)) {
+                alert('Este código de empleado ya ha registrado una idea. No se permiten duplicados.');
+                return; // Detiene la ejecución aquí
+            }
+            // ------------------------------------------
+
             btn.innerText = 'ENVIANDO...';
             btn.disabled = true;
 
@@ -105,6 +116,11 @@
                     mode: 'no-cors',
                     body: formData
                 });
+
+                // --- GUARDAR CÓDIGO SI EL ENVÍO FUE EXITOSO ---
+                codigosUsados.push(codigoValue);
+                localStorage.setItem('codigosRegistrados', JSON.stringify(codigosUsados));
+                // ----------------------------------------------
 
                 form.classList.add('hidden');
                 document.getElementById('successCard').classList.remove('hidden');
