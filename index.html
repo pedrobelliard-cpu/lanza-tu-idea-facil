@@ -1,3 +1,9 @@
+¡Tienes toda la razón! Mil disculpas, me dejé llevar por el nombre del club y cambié los textos originales.
+
+Aquí tienes el código manteniendo exactamente tus títulos, etiquetas y textos iniciales, pero con el contador integrado dentro de la tarjeta azul para que se vea más profesional y pequeño:
+
+HTML
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,88 +19,89 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div class="w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl border border-slate-200 overflow-hidden">
+    <div class="w-full max-w-lg bg-white rounded-[2rem] shadow-2xl border border-slate-200 overflow-hidden">
         
         <div class="bg-blue-800 p-8 sm:p-10 text-white relative">
-            <div class="flex justify-between items-start gap-4">
-                <div class="flex-1">
+            <div class="flex justify-between items-start">
+                <div>
                     <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
                         Lanza tu idea <span class="text-blue-300">0.1</span>
                     </h1>
-                    <p class="text-blue-100 opacity-80 mt-1 text-sm">
-                        Club de Innovación IA
+                    <p class="text-blue-100 opacity-80 mt-2 text-sm">
+                        Plataforma de captura de ideas estratégicas
                     </p>
                 </div>
                 
-                <div class="bg-white/10 backdrop-blur-md px-3 py-2 rounded-2xl border border-white/20 flex items-center gap-2 shadow-inner">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <div class="bg-blue-900/50 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-blue-400/30 flex items-center gap-2">
+                    <span class="flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                     </span>
-                    <div class="text-right">
-                        <p class="text-[10px] uppercase font-bold tracking-widest text-blue-200 leading-none">Ideas</p>
-                        <p id="contadorIdeas" class="text-lg font-black leading-none mt-1 text-white">0</p>
-                    </div>
+                    <span class="text-[10px] uppercase font-bold tracking-wider text-blue-100">
+                        Ideas: <span id="contadorIdeas" class="text-white text-xs ml-1">0</span>
+                    </span>
                 </div>
             </div>
         </div>
 
-        <form id="ideaForm" class="p-8 sm:p-10 space-y-5">
+        <form id="ideaForm" class="p-8 sm:p-10 space-y-6">
             
             <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">Título de la propuesta</label>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Título de la idea</label>
                 <input type="text" name="titulo" required
-                    class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-slate-700"
-                    placeholder="¿Qué quieres mejorar?">
+                    class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all"
+                    placeholder="¿Cómo se llama tu propuesta?">
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">Tu Nombre *</label>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nombre Completo *</label>
                     <input type="text" name="nombre" required
-                        class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-slate-700"
-                        placeholder="Nombre">
+                        class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all"
+                        placeholder="Tu nombre">
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">Código ID *</label>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Código Empleado *</label>
                     <input type="text" id="codigoInput" name="codigo" required
-                        class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-slate-700"
-                        placeholder="12345">
+                        class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all"
+                        placeholder="Ej. 12345">
                 </div>
             </div>
 
             <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">Área / Departamento</label>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Área o Departamento</label>
                 <input type="text" name="departamento"
-                    class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all text-slate-700"
-                    placeholder="Tu área">
+                    class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all"
+                    placeholder="¿A qué área perteneces?">
             </div>
 
             <button type="submit" id="submitBtn"
-                class="w-full bg-blue-700 text-white font-bold py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200 mt-4 active:scale-95">
+                class="w-full bg-blue-700 text-white font-bold py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200 mt-4">
                 REGISTRAR IDEA
             </button>
 
-            <div class="pt-6 border-t border-slate-100 text-center">
+            <div class="pt-4 border-t border-slate-100 text-center">
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest mb-3">Otras vías</p>
                 <a href="https://wa.me/18090000000?text=Hola,%20tengo%20una%20idea%20estratégica:" 
                    target="_blank"
-                   class="inline-flex items-center justify-center gap-2 text-green-600 text-sm font-semibold hover:text-green-700 transition-colors">
+                   class="inline-flex items-center justify-center gap-2 text-green-600 font-semibold hover:text-green-700 transition-colors">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.544.916 3.21 1.401 4.909 1.402l.006.001c5.455 0 9.894-4.438 9.896-9.895.002-2.645-1.026-5.132-2.895-7.003-1.869-1.871-4.357-2.9-7.003-2.901-5.457 0-9.896 4.439-9.899 9.896-.001 1.745.455 3.447 1.321 4.938l-.98 3.58 3.645-.956zm11.233-7.058c-.31-.154-1.833-.905-2.112-1.006-.279-.101-.482-.152-.684.152-.202.304-.785 1-.962 1.202-.177.203-.355.228-.665.074-.31-.154-1.31-.483-2.495-1.539-.922-.822-1.544-1.837-1.724-2.145-.18-.308-.019-.474.136-.627.14-.138.31-.362.465-.544.155-.181.206-.31.31-.517.103-.207.051-.388-.026-.543-.077-.155-.684-1.648-.938-2.26-.248-.599-.5-.518-.684-.527l-.583-.009c-.202 0-.531.076-.81.38-.279.304-1.064 1.039-1.064 2.532 0 1.494 1.089 2.937 1.241 3.141.152.203 2.143 3.273 5.19 4.59.725.313 1.291.5 1.731.64.728.232 1.39.2 1.913.122.584-.087 1.833-.749 2.087-1.474.253-.725.253-1.346.177-1.474-.076-.127-.279-.203-.589-.358z"/></svg>
-                    Enviar idea vía WhatsApp
+                    También puedes enviar tu idea vía WhatsApp
                 </a>
             </div>
+
         </form>
 
         <div id="successCard" class="hidden p-12 text-center space-y-4">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 text-green-600 rounded-full mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h3 class="text-xl font-bold text-slate-800">¡Recibido!</h3>
-            <p class="text-slate-500 text-sm">Tu propuesta ha sido registrada.</p>
-            <button onclick="location.reload()" class="mt-4 text-blue-700 font-bold text-sm hover:underline">Registrar otra</button>
+            <h3 class="text-2xl font-bold text-slate-800">¡Idea enviada!</h3>
+            <p class="text-slate-500">Tu propuesta ha sido registrada exitosamente.</p>
+            <button onclick="location.reload()" class="mt-4 text-blue-700 font-bold hover:underline">Enviar otra idea</button>
         </div>
     </div>
 
@@ -117,7 +124,7 @@
             let codigosUsados = JSON.parse(localStorage.getItem('codigosRegistrados')) || [];
 
             if (codigosUsados.includes(codigoValue)) {
-                alert('Este código de empleado ya tiene una idea registrada.');
+                alert('Este código de empleado ya ha registrado una idea. No se permiten duplicados.');
                 return;
             }
 
@@ -140,7 +147,7 @@
                 form.classList.add('hidden');
                 document.getElementById('successCard').classList.remove('hidden');
             } catch (error) {
-                alert('Error al enviar. Revisa tu conexión.');
+                alert('Error al enviar la idea. Revisa la conexión o la URL del script.');
                 btn.innerText = 'REGISTRAR IDEA';
                 btn.disabled = false;
             }
