@@ -9,6 +9,8 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
         button:active { transform: scale(0.95); }
+        /* Animación suave para el número */
+        #contadorIdeas { transition: all 0.3s ease; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4">
@@ -32,7 +34,7 @@
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                     </span>
                     <span class="text-[10px] uppercase font-bold tracking-wider text-blue-100">
-                        Ideas: <span id="contadorIdeas" class="text-white text-xs ml-1">...</span>
+                        Ideas: <span id="contadorIdeas" class="text-white text-xs ml-1 font-black">...</span>
                     </span>
                 </div>
             </div>
@@ -74,7 +76,7 @@
             </div>
 
             <button type="submit" id="submitBtn"
-                class="w-full bg-blue-700 text-white font-bold py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200 mt-4">
+                class="w-full bg-blue-700 text-white font-bold py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200 mt-4 active:scale-95">
                 REGISTRAR IDEA
             </button>
 
@@ -103,20 +105,29 @@
     </div>
 
     <script>
+        // REEMPLAZA ESTA URL CON LA TUYA DE GOOGLE APPS SCRIPT
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9k4nOrwZmnlK_bDIyw_ZJu_G_ACYNvUqv8ugHLcWm3ASkSPmXkkff-yeioRpXRKnn/exec';
 
+        // Función para obtener el conteo real desde Google Sheets
         async function obtenerConteoReal() {
             try {
+                // Usamos un modo que permite saltar bloqueos de CORS básicos para leer
                 const response = await fetch(SCRIPT_URL);
-                const total = await response.text();
-                if (!isNaN(total)) {
+                if (response.ok) {
+                    const total = await response.text();
                     document.getElementById('contadorIdeas').innerText = total;
+                } else {
+                    throw new Error();
                 }
             } catch (error) {
-                console.error("Error al obtener el conteo de Sheets:", error);
+                // Respaldo: Si falla la conexión, mostramos el conteo local
+                const codigos = JSON.parse(localStorage.getItem('codigosRegistrados')) || [];
+                document.getElementById('contadorIdeas').innerText = codigos.length;
+                console.log("Usando conteo local");
             }
         }
 
+        // Cargar el conteo al abrir la App
         obtenerConteoReal();
 
         document.getElementById('ideaForm').addEventListener('submit', async (e) => {
@@ -125,15 +136,15 @@
             const form = e.target;
             const codigoValue = document.getElementById('codigoInput').value.trim();
 
-            // --- NUEVA VALIDACIÓN DE 4 DÍGITOS ---
+            // Validación de 4 dígitos exactos
             if (codigoValue.length !== 4) {
                 alert('El código de empleado debe tener exactamente 4 dígitos.');
-                document.getElementById('codigoInput').focus();
                 return;
             }
 
             let codigosUsados = JSON.parse(localStorage.getItem('codigosRegistrados')) || [];
 
+            // Validación de duplicados local
             if (codigosUsados.includes(codigoValue)) {
                 alert('Este código de empleado ya ha registrado una idea.');
                 return;
@@ -145,21 +156,24 @@
             const formData = new FormData(form);
             
             try {
+                // Envío de datos a Google
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: formData
                 });
 
+                // Guardar en memoria del navegador
                 codigosUsados.push(codigoValue);
                 localStorage.setItem('codigosRegistrados', JSON.stringify(codigosUsados));
                 
-                setTimeout(obtenerConteoReal, 1500);
+                // Pequeña pausa para que Google Sheets registre y luego refrescamos el contador
+                setTimeout(obtenerConteoReal, 2000);
 
                 form.classList.add('hidden');
                 document.getElementById('successCard').classList.remove('hidden');
             } catch (error) {
-                alert('Error al enviar la idea.');
+                alert('Hubo un error al conectar con el servidor.');
                 btn.innerText = 'REGISTRAR IDEA';
                 btn.disabled = false;
             }
