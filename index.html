@@ -11,7 +11,17 @@
         button:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="mb-6 bg-white px-6 py-3 rounded-full shadow-md border border-slate-200 flex items-center gap-3">
+        <span class="flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+        </span>
+        <p class="text-slate-600 font-bold text-sm uppercase tracking-wide">
+            Ideas registradas: <span id="contadorIdeas" class="text-blue-700 text-lg ml-1">0</span>
+        </p>
+    </div>
 
     <div class="w-full max-w-lg bg-white rounded-[2rem] shadow-2xl border border-slate-200 overflow-hidden">
         
@@ -25,7 +35,6 @@
         </div>
 
         <form id="ideaForm" class="p-8 sm:p-10 space-y-6">
-            
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Título de la idea</label>
                 <input type="text" name="titulo" required
@@ -60,17 +69,6 @@
                 class="w-full bg-blue-700 text-white font-bold py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-200 mt-4">
                 REGISTRAR IDEA
             </button>
-
-            <div class="pt-4 border-t border-slate-100 text-center">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest mb-3">Otras vías</p>
-                <a href="https://wa.me/18090000000?text=Hola,%20tengo%20una%20idea%20estratégica:" 
-                   target="_blank"
-                   class="inline-flex items-center justify-center gap-2 text-green-600 font-semibold hover:text-green-700 transition-colors">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.544.916 3.21 1.401 4.909 1.402l.006.001c5.455 0 9.894-4.438 9.896-9.895.002-2.645-1.026-5.132-2.895-7.003-1.869-1.871-4.357-2.9-7.003-2.901-5.457 0-9.896 4.439-9.899 9.896-.001 1.745.455 3.447 1.321 4.938l-.98 3.58 3.645-.956zm11.233-7.058c-.31-.154-1.833-.905-2.112-1.006-.279-.101-.482-.152-.684.152-.202.304-.785 1-.962 1.202-.177.203-.355.228-.665.074-.31-.154-1.31-.483-2.495-1.539-.922-.822-1.544-1.837-1.724-2.145-.18-.308-.019-.474.136-.627.14-.138.31-.362.465-.544.155-.181.206-.31.31-.517.103-.207.051-.388-.026-.543-.077-.155-.684-1.648-.938-2.26-.248-.599-.5-.518-.684-.527l-.583-.009c-.202 0-.531.076-.81.38-.279.304-1.064 1.039-1.064 2.532 0 1.494 1.089 2.937 1.241 3.141.152.203 2.143 3.273 5.19 4.59.725.313 1.291.5 1.731.64.728.232 1.39.2 1.913.122.584-.087 1.833-.749 2.087-1.474.253-.725.253-1.346.177-1.474-.076-.127-.279-.203-.589-.358z"/></svg>
-                    También puedes enviar tu idea vía WhatsApp
-                </a>
-            </div>
-
         </form>
 
         <div id="successCard" class="hidden p-12 text-center space-y-4">
@@ -88,22 +86,27 @@
     <script>
         const SCRIPT_URL = 'ESCRIBE_AQUI_TU_URL_DE_GOOGLE';
 
+        // FUNCION PARA ACTUALIZAR EL CONTADOR VISUAL
+        function actualizarContador() {
+            const codigos = JSON.parse(localStorage.getItem('codigosRegistrados')) || [];
+            document.getElementById('contadorIdeas').innerText = codigos.length;
+        }
+
+        // Ejecutar al cargar la página
+        actualizarContador();
+
         document.getElementById('ideaForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             const form = e.target;
             const codigoValue = document.getElementById('codigoInput').value.trim();
 
-            // --- LÓGICA DE VALIDACIÓN DE DUPLICADOS ---
-            // 1. Obtener la lista de códigos ya usados del localStorage
             let codigosUsados = JSON.parse(localStorage.getItem('codigosRegistrados')) || [];
 
-            // 2. Verificar si el código actual ya existe en la lista
             if (codigosUsados.includes(codigoValue)) {
-                alert('Este código de empleado ya ha registrado una idea. No se permiten duplicados.');
-                return; // Detiene la ejecución aquí
+                alert('Este código de empleado ya ha registrado una idea.');
+                return;
             }
-            // ------------------------------------------
 
             btn.innerText = 'ENVIANDO...';
             btn.disabled = true;
@@ -111,21 +114,22 @@
             const formData = new FormData(form);
             
             try {
+                // Simulación de envío (Fetch)
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: formData
                 });
 
-                // --- GUARDAR CÓDIGO SI EL ENVÍO FUE EXITOSO ---
+                // Guardar y actualizar contador
                 codigosUsados.push(codigoValue);
                 localStorage.setItem('codigosRegistrados', JSON.stringify(codigosUsados));
-                // ----------------------------------------------
+                actualizarContador();
 
                 form.classList.add('hidden');
                 document.getElementById('successCard').classList.remove('hidden');
             } catch (error) {
-                alert('Error al enviar la idea. Revisa la conexión.');
+                alert('Error al enviar la idea.');
                 btn.innerText = 'REGISTRAR IDEA';
                 btn.disabled = false;
             }
