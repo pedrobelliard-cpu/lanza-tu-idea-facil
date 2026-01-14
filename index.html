@@ -32,7 +32,7 @@
                         <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                     </span>
                     <span class="text-[10px] uppercase font-bold tracking-wider text-blue-100">
-                        Ideas: <span id="contadorIdeas" class="text-white text-xs ml-1">0</span>
+                        Ideas: <span id="contadorIdeas" class="text-white text-xs ml-1">...</span>
                     </span>
                 </div>
             </div>
@@ -100,14 +100,27 @@
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9k4nOrwZmnlK_bDIyw_ZJu_G_ACYNvUqv8ugHLcWm3ASkSPmXkkff-yeioRpXRKnn/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwERgve7UNbIPqFlhuuvaribVNyusdkWbVyJWlCc8IFPJ7TA6P6M-ckeOxQrprW6fgV/exec';
 
-        function actualizarContador() {
-            const codigos = JSON.parse(localStorage.getItem('codigosRegistrados')) || [];
-            document.getElementById('contadorIdeas').innerText = codigos.length;
+        // NUEVA FUNCIÓN: Obtiene el conteo real desde Google Sheets
+        async function obtenerConteoReal() {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                const total = await response.text();
+                // Si el resultado es un número válido, lo ponemos en el HTML
+                if (!isNaN(total)) {
+                    document.getElementById('contadorIdeas').innerText = total;
+                }
+            } catch (error) {
+                console.error("Error al obtener el conteo de Sheets:", error);
+                // Si falla, mostramos el conteo local como respaldo
+                const codigos = JSON.parse(localStorage.getItem('codigosRegistrados')) || [];
+                document.getElementById('contadorIdeas').innerText = codigos.length;
+            }
         }
 
-        actualizarContador();
+        // Ejecutar al cargar la página
+        obtenerConteoReal();
 
         document.getElementById('ideaForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -134,14 +147,17 @@
                     body: formData
                 });
 
+                // Guardar localmente para evitar que la misma persona repita inmediatamente
                 codigosUsados.push(codigoValue);
                 localStorage.setItem('codigosRegistrados', JSON.stringify(codigosUsados));
-                actualizarContador();
+                
+                // Refrescar el contador después de un breve momento para que Sheets se actualice
+                setTimeout(obtenerConteoReal, 1500);
 
                 form.classList.add('hidden');
                 document.getElementById('successCard').classList.remove('hidden');
             } catch (error) {
-                alert('Error al enviar la idea. Revisa la conexión o la URL del script.');
+                alert('Error al enviar la idea. Revisa la conexión.');
                 btn.innerText = 'REGISTRAR IDEA';
                 btn.disabled = false;
             }
